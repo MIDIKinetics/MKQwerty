@@ -1,0 +1,1083 @@
+<JZML>
+<WINDOW class="Container" text="MKQwerty" x="0" y="0" width="768" height="210" id="385" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="8355711" label="1" tabbar="1" meta="0">
+<WINDOW class="Container" text="_" x="-8" y="-8" width="768" height="210" id="388" state="5" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<WINDOW class="Container" text="UI" x="-8" y="-8" width="768" height="210" id="391" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<WINDOW class="Canvas" text="Background" x="0" y="0" width="752" height="194" id="395" state="5" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" capture="1" redrawMode="1" touchSupport="1">
+<SCRIPT name="init()" script="canvas_refresh(getobject());" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Background/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="onRedraw()" script="decl this = getobject();
+canvas_clear(this);
+
+decl rect = getobjectrect(this);
+decl cornerRadius = 2;
+decl midX = rect[0] + (rect[2]/2);
+decl midY =  rect[1] + (rect[3]/2);
+
+// Background
+canvas_beginPath(this);
+	canvas_moveTo(this, midX, rect[1]);
+	canvas_arcTo(this, rect[0] + rect[2], rect[1], rect[0] + rect[2], midY, cornerRadius);
+	canvas_arcTo(this, rect[0] + rect[2], rect[1] + rect[3], midX, rect[1] + rect[3], cornerRadius);
+	canvas_arcTo(this, rect[0], rect[1] + rect[3], rect[0], midY, cornerRadius);
+	canvas_arcTo(this, rect[0], rect[1], midX, rect[1], cornerRadius);
+canvas_closePath(this);
+canvas_setFillStyle(this, backgroundFillColor);
+canvas_fill(this);
+" trigger_script="" trigger_type="255" trigger_name="onRedraw" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Background/onRedraw" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="refresh()" script="canvas_refresh(getobject());" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Background/refresh" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<WINDOW class="Canvas" text="OutputWindow" x="4" y="4" width="744" height="32" id="394" state="5" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" capture="1" redrawMode="0" touchSupport="1">
+<SCRIPT name="onRedraw()" script="decl this = getobject();
+canvas_clear(this);
+if (!showsOutput) return;
+
+decl bounds = replace(getobjectrect(this), {0, 0}, 0);
+canvas_setFillStyle(this, outputWindowFillColor);
+canvas_fillRect(this, 0, 0, bounds[2], bounds[3]);
+canvas_setTextAlign(this, textAlignCenter);
+canvas_setTextBaseline(this, textBaselineMiddle);
+canvas_setFontSize(this, 18);
+canvas_setFillStyle(this, outputWindowTextColor);
+canvas_fillText(this, TypingBrain.formattedOutput(), bounds[2]/2, (bounds[3]/2) - 2, bounds[2]);" trigger_script="output" trigger_type="255" trigger_name="onRedraw" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/OutputWindow/onRedraw" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onLoad()" script="canvas_refresh(getobject());" trigger_script="" trigger_type="5" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/OutputWindow/onLoad" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="init()" script="canvas_refresh(getobject());" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/OutputWindow/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="refresh()" script="canvas_refresh(getobject());" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/OutputWindow/refresh" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<WINDOW class="Container" text="Keyboard" x="-4" y="32" width="760" height="166" id="396" state="5" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<WINDOW class="Canvas" text="Canvas" x="0" y="0" width="744" height="150" state="5" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" capture="1" redrawMode="0" touchSupport="2">
+<SCRIPT name="onRedraw()" script="decl this = getobject();
+decl bounds = replace(getobjectrect(this), {0, 0}, 0);
+
+decl padding = 4;
+decl numberOfButtonsInARow = 11.5; // Backspace is 1.5 times the size of a normal button
+decl buttonWidth = (bounds[2] - (10 * padding)) / numberOfButtonsInARow; 
+decl buttonHeight = (bounds[3] - (3 * padding)) / 4;
+
+decl layout = KeyLayout.current;
+decl asciiCodes = getexpression(layout, 'asciiCodes');
+decl xMultipliers = getexpression(layout, 'xMultipliers');
+decl wMultipliers = getexpression(layout, 'wMultipliers');
+decl yMultipliers = getexpression(layout, 'yMultipliers');
+
+canvas_setTextAlign(this, 1);
+canvas_setTextBaseline(this, 1);
+decl fontSize;
+if (buttonWidth < 30) {
+	fontSize = 10;
+} else if (buttonWidth < 40) {
+	fontSize = 14;
+} else {
+	fontSize = 18;
+}
+canvas_setFontSize(this, fontSize);
+
+if (RedrawQueue.isEmpty()) {
+
+	canvas_clear(this);
+	decl i;
+	for (i = 0; i < sizeof(asciiCodes); i++) {
+		if (!canDrawKey(asciiCodes[i]))  {
+			continue;
+		}		
+		decl keyRect = keyRect(buttonWidth, 
+							   buttonHeight, 
+							   padding, 
+							   xMultipliers[i], 
+							   yMultipliers[i], 
+							   wMultipliers[i]);
+		drawKey(keyRect, asciiCodes[i]);		
+	}
+		
+} else {
+		
+	while (!RedrawQueue.isEmpty()) {
+		decl asciiCode = RedrawQueue.dequeue();
+		decl i;
+		for (i = 0; i < sizeof(asciiCodes); i++) {
+			if (asciiCodes[i] == asciiCode && canDrawKey(asciiCode)) {
+				decl keyRect = keyRect(buttonWidth, 
+							  		   buttonHeight, 
+							  		   padding, 
+							 		   xMultipliers[i], 
+							   		   yMultipliers[i], 
+							   		   wMultipliers[i]);
+				drawKey(keyRect, asciiCodes[i]);	
+				break;
+			}
+		}
+	}
+		
+}" trigger_script="" trigger_type="255" trigger_name="onRedraw" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/onRedraw" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="drawKey(rect, asciiCode)" script="decl this = getobject();
+decl cornerRadius = 4;
+decl isHit = CursorList.isHit(asciiCode);
+decl midX = rect[0] + (rect[2]/2);
+decl midY =  rect[1] + (rect[3]/2);
+
+
+// Background
+canvas_beginPath(this);
+	canvas_moveTo(this, midX, rect[1]);
+	canvas_arcTo(this, rect[0] + rect[2], rect[1], rect[0] + rect[2], midY, cornerRadius);
+	canvas_arcTo(this, rect[0] + rect[2], rect[1] + rect[3], midX, rect[1] + rect[3], cornerRadius);
+	canvas_arcTo(this, rect[0], rect[1] + rect[3], rect[0], midY, cornerRadius);
+	canvas_arcTo(this, rect[0], rect[1], midX, rect[1], cornerRadius);
+canvas_closePath(this);
+canvas_addHitRegion(this, 0, asciiCode);
+canvas_setFillStyle(this, isHit ? keyFillColorHighlighted : keyFillColorNormal);
+canvas_fill(this);
+
+// Text
+canvas_setFillStyle(this, isHit ? keyTextColorHighlighted : keyTextColorNormal);
+canvas_setStrokeStyle(this, isHit ? keyTextColorHighlighted : keyTextColorNormal);
+canvas_fillText(this, keyTitle(asciiCode), midX, midY, rect[2]);
+
+
+// Icon
+if (asciiCode == ASCIICode.endTransmission()) {
+	drawDismissIcon(rect);
+}
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/drawKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="keyTitle(asciiCode)" script="// Optimization: most characters are in the range of 32 - 126
+if (asciiCode >= 32 && asciiCode <= 126) {
+	return arraytostring({asciiCode});
+}
+
+if (asciiCode == ASCIICode.backspace()) {
+	return 'DEL';
+} else if (asciiCode == ASCIICode.clear()) {
+	return 'CLR';
+} else if (asciiCode == ASCIICode.shiftIn()) {
+	return 'CAPS';
+} else if (asciiCode == ASCIICode.shiftOut()) {
+	return 'CAPS';
+} else if (asciiCode == ASCIICode.deviceControlLetters()) {
+	return 'ABC';
+} else if (asciiCode == ASCIICode.deviceControlSymbols()) {
+	return '#+=';
+} else if (asciiCode == ASCIICode.deviceControlNumbers()) {
+	return '.?!123';
+} else if (asciiCode == ASCIICode.carriageReturn()) {
+	return 'Return';
+} else {
+	return '';
+}" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/keyTitle" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="keyRect(w, h, pad, kx, ky, kw)" script="// w = button width in pixels
+// h = button height in pixels
+// pad = button padding
+// kx = shorthand for KeyLayout.xMultiplier
+// kw = shorthand for KeyLayout.wMultiplier
+// ky = shorthand for KeyLayout.yMultiplier
+
+return {
+	(kx * w) + (kx > 0 ? floor(kx) * pad : 0), 
+	(ky * h) + floor(ky * pad), 
+	(kw * w) + (kw > 0 ? floor(kw-1) * pad : 0), 
+	h
+};" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/keyRect" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="onCursorDown(cursor,hit,x,y)" script="CursorList.append(cursor, hit);
+RedrawQueue.enqueue(hit);
+refresh();
+" trigger_script="" trigger_type="255" trigger_name="onCursorDown" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/onCursorDown" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onCursorUp(cursor,hit,x,y)" script="// Fetch ascii code associated with this cursor
+decl asciiCode = CursorList.asciiCodeForCursor(cursor);
+
+// Cursor not found
+if (asciiCode == -1) return;
+
+// Remove cursor from list and enqueue button for redraw
+CursorList.remove(cursor);
+RedrawQueue.enqueue(asciiCode);
+
+// Refresh
+refresh();
+
+// Exit early for no known ascii code
+if (asciiCode == 0) {
+	return;
+}
+
+handleKeyTyped(asciiCode);" trigger_script="" trigger_type="255" trigger_name="onCursorUp" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/onCursorUp" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="init()" script="" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="drawDismissIcon(rect)" script="decl this = getobject();
+
+
+rect = rect + {8, 8, -16, -16};
+decl isHit = CursorList.isHit(ASCIICode.endTransmission());
+
+
+
+/*
+// Border
+{
+
+decl minX = rect[0]; 
+decl minY = rect[1];
+decl w = rect[2];
+decl h = rect[3];
+decl maxX = minX + w;
+decl maxY = minY + h;
+decl midX = minX + (w/2);
+decl midY = minY + (h/2);
+decl lineWidth = 1;
+decl borderRadius = 5;
+
+canvas_beginPath(this);
+canvas_moveTo(this, midX, minY);
+canvas_arcTo(this, maxX, minY, maxX, midY, borderRadius);
+canvas_arcTo(this, maxX, maxY, midX, maxY, borderRadius);
+canvas_arcTo(this, minX, maxY, minX, midY, borderRadius);
+canvas_arcTo(this, minX, minY, midX, minY, borderRadius);
+canvas_closePath(this);
+canvas_setLineWidth(this, lineWidth);
+canvas_stroke(this);
+
+decl padding = 6;
+rect = rect + {padding, padding, -2 * padding, -2 * padding};
+
+}
+
+*/
+// Keys
+
+{
+
+decl rows = 3;
+decl rowSpacing = 3;
+decl rowHeight = (rect[3] - ((rows - 1) * rowSpacing)) / rows;
+decl columns = {5, 4, 1};
+decl columnSpacing = 2;
+
+decl i;
+for (i = 0; i < rows; i++) {
+	decl tx = rect[0], ty = rect[1];
+	decl columnWidth = (rect[2] - ((columns[i] - 1) * columnSpacing)) / columns[i];
+	decl j;
+	for (j = 0; j < columns[i]; j++) {
+		canvas_fillRect(this, tx, ty, columnWidth, rowHeight);
+		tx += columnWidth + columnSpacing;
+	}
+	decl widthInset = columnWidth/3;
+	rect = rect + {widthInset, rowHeight + rowSpacing, -2 * widthInset, 0};
+}
+}
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/drawDismissIcon" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="canDrawKey(asciiCode)" script="if (asciiCode == ASCIICode.carriageReturn()) {
+	return showsReturnKey;
+}
+
+if (asciiCode == ASCIICode.endTransmission()) {
+	return showsDismissKey;
+}
+
+if (!isAlphanumeric) {
+	
+	if (asciiCode == ASCIICode.dash()) {
+		return allowsNegativeNumbers;
+	}
+
+	if (asciiCode == ASCIICode.decimalPoint()) {
+		return allowsFloatingPointNumbers;
+	}
+
+}
+
+return 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/canDrawKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="handleKeyTyped(asciiCode)" script="TypingBrain.type(asciiCode);
+
+
+if (asciiCode == ASCIICode.shiftIn()) {
+
+	KeyLayout.current = KeyLayout.upperCase;
+
+} else if (asciiCode == ASCIICode.shiftOut()) {
+
+	KeyLayout.current = KeyLayout.lowerCase;
+
+} else if (asciiCode == ASCIICode.deviceControlNumbers()) {
+
+	KeyLayout.current = KeyLayout.nums;
+
+} else if (asciiCode == ASCIICode.deviceControlSymbols()) {
+
+	KeyLayout.current = KeyLayout.specialChars;
+
+} else if (asciiCode == ASCIICode.deviceControlLetters()) {
+
+	KeyLayout.current = KeyLayout.lowerCase;
+
+} else {
+
+	didTypeKey(asciiCode);
+
+}
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/handleKeyTyped" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<WINDOW class="Container" text="CursorList" x="0" y="0" width="156" height="165" id="391" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<VARIABLE name="cursors=" value="-1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/cursors" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17325,17896,17056" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="asciiCodes=" value="-1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/asciiCodes" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17286,17896,17056" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="clear()" script="cursors = {-1};
+asciiCodes = {-1};
+
+ 
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/clear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="isEmpty()" script="return sizeof(cursors) == 1 && cursors[0] == -1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/isEmpty" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="remove(cursor)" script="if (sizeof(cursors) == 1) {
+	clear();
+} else {
+	decl cursorsCopy = {-1};
+	decl asciiCodesCopy = {-1};
+	decl i, j;
+	for (i = 0; i < sizeof(cursors); i++) {
+		if (cursors[i] != cursor) {
+			if (j == 0) {
+				cursorsCopy = { cursors[i] };
+				asciiCodesCopy = { asciiCodes[i] };
+			} else {
+				cursorsCopy[j] = cursors[i];
+				asciiCodesCopy[j] = asciiCodes[i];
+			}
+			j++;
+		}
+	}
+	cursors = cursorsCopy;
+	asciiCodes = asciiCodesCopy;
+}" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/remove" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="append(cursor, asciiCode)" script="if (isEmpty()) {
+	cursors = {cursor};
+	asciiCodes = {asciiCode};
+} else {
+	cursors[sizeof(cursors)] = cursor;
+	asciiCodes[sizeof(asciiCodes)] = asciiCode;
+}
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/append" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="isHit(asciiCode)" script="decl i;
+for (i = 0; i < sizeof(asciiCodes); i++) {
+	if (asciiCodes[i] == asciiCode) {
+		return 1;
+	}
+}
+return 0;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/isHit" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="asciiCodeForCursor(cursor)" script="decl i;
+for (i = 0; i < sizeof(cursors); i++) {
+	if (cursors[i] == cursor) {
+		return asciiCodes[i];
+	}
+}
+return -1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/asciiCodeForCursor" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="init()" script="clear();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<WINDOW class="Container" text="RedrawQueue" x="0" y="0" width="156" height="165" id="392" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<VARIABLE name="queue=" value="-1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/UI/Keyboard/RedrawQueue/queue" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="isEmpty()" script="return sizeof(queue == 1) && queue[0] == -1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/RedrawQueue/isEmpty" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="dequeue()" script="if (isEmpty()) {
+	return -1;
+}
+decl asciiCode = queue[0];
+if (sizeof(queue) == 1) {
+	clear();
+} else {
+	queue = subarray(queue, 1, sizeof(queue) - 1);
+}
+return asciiCode;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/RedrawQueue/dequeue" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="isFull()" script="return sizeof(queue) == 256;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/RedrawQueue/isFull" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="clear()" script="queue = {-1};" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/RedrawQueue/clear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="enqueue(asciiCode)" script="if (isFull()) return;
+else if (isEmpty()) queue = {asciiCode};
+else queue[sizeof(queue)] = asciiCode;
+
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/RedrawQueue/enqueue" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="init()" script="clear();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/RedrawQueue/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<SCRIPT name="init()" script="RedrawQueue.init();
+CursorList.init();
+refresh();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="refresh()" script="canvas_refresh(Keyboard.Canvas);" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/refresh" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<SCRIPT name="init()" script="configureLayout();
+Background.init();
+OutputWindow.init();
+Keyboard.init();
+refresh();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="configureLayout()" script="decl this = getobject();
+decl bounds = replace(getobjectrect(this), {0, 0}, 0) - {0, 0, 16, 16};
+
+setobjectrect(Background, bounds);
+
+decl padding = 4;
+bounds = bounds + {padding, padding, -2 * padding, -2 * padding};
+
+if (showsOutput) {
+
+	decl outputWindowHeight =  32;
+	decl spacing = 4;
+	decl keyboardHeight = bounds[3] - spacing - outputWindowHeight;
+
+	setobjectrect(OutputWindow, {
+		bounds[0],
+		bounds[1],
+		bounds[2],
+		outputWindowHeight
+	});
+
+	setobjectrect(Keyboard, {
+		bounds[0] - 8,
+		bounds[1] + spacing + outputWindowHeight - 8,
+		bounds[2] + 16,
+		keyboardHeight + 16
+	});
+
+
+	show(OutputWindow, 1);
+
+} else {
+	
+	show(OutputWindow, 0);
+	setobjectrect(Keyboard, bounds + {-padding, -padding, 2 * padding, 2 * padding});
+
+}
+
+
+decl keyboardBounds = replace(getobjectrect(Keyboard), {0, 0}, 0) - {0, 0, 16, 16};
+setobjectrect(Keyboard.Canvas, keyboardBounds);
+ 
+
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/configureLayout" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="refresh()" script="Keyboard.refresh();
+OutputWindow.refresh();
+Background.refresh();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/refresh" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<WINDOW class="Container" text="ASCIICode" x="15" y="16" width="156" height="165" id="393" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<FUNCTION name="clear()=12" send="1"/>
+<FUNCTION name="shiftIn()=15" send="1"/>
+<FUNCTION name="shiftOut()=14" send="1"/>
+<FUNCTION name="backspace()=8" send="1"/>
+<FUNCTION name="endTransmission()=4" send="1"/>
+<FUNCTION name="deviceControlLetters()=20" send="1"/>
+<FUNCTION name="deviceControlNumbers()=18" send="1"/>
+<FUNCTION name="deviceControlSymbols()=17" send="1"/>
+<FUNCTION name="carriageReturn()=13" send="1"/>
+<FUNCTION name="dash()=45" send="1"/>
+<FUNCTION name="decimalPoint()=46" send="1"/>
+</WINDOW>
+<WINDOW class="Container" text="PropertyObservers" x="0" y="0" width="156" height="165" id="396" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<SCRIPT name="onKeyLayoutChanged()" script="UI.refresh();" trigger_script="KeyLayout.current" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/PropertyObservers/onKeyLayoutChanged" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onIsAlphanumeric()" script="TypingBrain.clear();
+if (isAlphanumeric) {
+	KeyLayout.current = KeyLayout.lowerCase;
+} else {
+	KeyLayout.current = KeyLayout.numeric;
+}" trigger_script="isAlphanumeric" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/PropertyObservers/onIsAlphanumeric" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onShowsOutput()" script="UI.configureLayout();
+UI.refresh();" trigger_script="showsOutput" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/PropertyObservers/onShowsOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onOutput()" script="UI.refresh();" trigger_script="output" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/PropertyObservers/onOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onAllowsNegativeNumbers()" script="TypingBrain.clear();
+" trigger_script="allowsNegativeNumbers" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/PropertyObservers/onAllowsNegativeNumbers" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onAllowsFloatingPointNumbers()" script="TypingBrain.clear();
+UI.refresh();" trigger_script="allowsFloatingPointNumbers" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/PropertyObservers/onAllowsFloatingPointNumbers" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onShowsDismissKey()" script="UI.refresh();" trigger_script="showsDismissKey" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/PropertyObservers/onShowsDismissKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onShowsReturnKey()" script="UI.refresh();" trigger_script="showsReturnKey" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/PropertyObservers/onShowsReturnKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onGetObjectRect()" script="UI.configureLayout();
+UI.refresh();" trigger_script="getobjectrect(getparent(_))" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/PropertyObservers/onGetObjectRect" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="Container" text="KeyLayout" x="0" y="0" width="156" height="165" id="397" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<WINDOW class="Container" text="lowerCase" x="0" y="0" width="116" height="121" id="5" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<VARIABLE name="asciiCodes=" value="113,119,101,114,116,121,117,105,111,112,8,97,115,100,102,103,104,106,107,108,13,15,122,120,99,118,98,110,109,44,46,18,32,4,12" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/lowerCase/asciiCodes" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="xMultipliers=" value="0,1,2,3,4,5,6,7,8,9,10,0.500000,1.500000,2.500000,3.500000,4.500000,5.500000,6.500000,7.500000,8.500000,9.500000,0,1.250000,2.250000,3.250000,4.250000,5.250000,6.250000,7.250000,8.250000,9.250000,0,3,9,10.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/lowerCase/xMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="-1,-6913,1792" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="wMultipliers=" value="1,1,1,1,1,1,1,1,1,1,1.500000,1,1,1,1,1,1,1,1,1,2,1.250000,1,1,1,1,1,1,1,1,1,3,6,1.250000,1.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/lowerCase/wMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="yMultipliers=" value="0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/lowerCase/yMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Container" text="nums" x="0" y="0" width="116" height="121" id="7" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<VARIABLE name="asciiCodes=" value="49,50,51,52,53,54,55,56,57,48,8,45,47,58,59,40,41,36,38,64,13,17,44,63,33,20,32,4,12" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/nums/asciiCodes" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="wMultipliers=" value="1,1,1,1,1,1,1,1,1,1,1.500000,1,1,1,1,1,1,1,1,1,2,1.250000,1,1,1,3,6,1.250000,1.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/nums/wMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="xMultipliers=" value="0,1,2,3,4,5,6,7,8,9,10,0.500000,1.500000,2.500000,3.500000,4.500000,5.500000,6.500000,7.500000,8.500000,9.500000,0,3,4,5,0,3,9,10.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/nums/xMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="-1,-6913,1792" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="yMultipliers=" value="0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/nums/yMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Container" text="specialChars" x="0" y="0" width="116" height="121" id="8" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<VARIABLE name="asciiCodes=" value="91,93,123,125,35,37,94,42,43,61,8,95,92,124,126,60,62,18,46,44,63,33,20,32,4,12" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/specialChars/asciiCodes" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="wMultipliers=" value="1,1,1,1,1,1,1,1,1,1,1.500000,1,1,1,1,1,1,1.250000,1,1,1,1,3,6,1.250000,1.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/specialChars/wMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="xMultipliers=" value="0,1,2,3,4,5,6,7,8,9,10,1.500000,2.500000,3.500000,4.500000,5.500000,6.500000,0,3.250000,4.250000,5.250000,6.250000,0,3,9,10.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/specialChars/xMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="-1,-6913,1792" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="yMultipliers=" value="0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/specialChars/yMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Container" text="upperCase" x="0" y="0" width="116" height="121" id="9" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<VARIABLE name="asciiCodes=" value="81,87,69,82,84,89,85,73,79,80,8,65,83,68,70,71,72,74,75,76,13,14,90,88,67,86,66,78,77,33,63,18,32,4,12" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/upperCase/asciiCodes" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="wMultipliers=" value="1,1,1,1,1,1,1,1,1,1,1.500000,1,1,1,1,1,1,1,1,1,2,1.250000,1,1,1,1,1,1,1,1,1,3,6,1.250000,1.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/upperCase/wMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="xMultipliers=" value="0,1,2,3,4,5,6,7,8,9,10,0.500000,1.500000,2.500000,3.500000,4.500000,5.500000,6.500000,7.500000,8.500000,9.500000,0,1.250000,2.250000,3.250000,4.250000,5.250000,6.250000,7.250000,8.250000,9.250000,0,3,9,10.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/upperCase/xMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="-1,-6913,1792" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="yMultipliers=" value="0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/upperCase/yMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Container" text="numeric" x="0" y="0" width="116" height="121" id="10" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<VARIABLE name="asciiCodes=" value="49,50,51,52,53,54,55,56,57,48,8,13,45,46,4,12" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/numeric/asciiCodes" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="xMultipliers=" value="0,1,2,3,4,5,6,7,8,9,10,9.500000,0,0,9,10.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/numeric/xMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="-1,-6913,1792" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="wMultipliers=" value="1,1,1,1,1,1,1,1,1,1,1.500000,2,1.250000,1.250000,1.250000,1.250000" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/numeric/wMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="yMultipliers=" value="0,0,0,0,0,0,0,0,0,0,0,1,2,3,3,3" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/numeric/yMultipliers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<VARIABLE name="current=" value="lowerCase" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/KeyLayout/current" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="24878,28275,26670" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="init()" script="//Don't need to re-init constants
+if (sizeof(lowerCase.asciiCodes) == 0) {
+	return;
+}
+
+decl allLayouts = {lowerCase, upperCase, nums, specialChars, numeric};
+decl layoutIndex;
+for (layoutIndex = 0; layoutIndex < sizeof(allLayouts); layoutIndex++) {
+
+	decl layout = allLayouts[layoutIndex];
+	
+	// 4 rows
+	decl id0, id1, id2, id3; 
+	decl x0, x1, x2, x3; 
+	decl w0, w1, w2, w3;
+
+	w0 = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5};
+	x0 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	w3 = {3, 6, 1.25, 1.25};
+	x3 = {0, 3, 9, 10.25};
+
+	if (layoutIndex == 0 || layoutIndex == 1 || layoutIndex == 2) {
+		w1 = {1, 1, 1, 1, 1, 1, 1, 1, 1, 2};
+		x1 = {.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5};
+		w2 = {1.25, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+		x2 = {0, 1.25, 2.25, 3.25, 4.25, 5.25, 6.25, 7.25, 8.25, 9.25};
+	}	
+
+	if (layoutIndex == 0) { 
+
+		id0 = {113, 119, 101, 114, 116, 121, 117, 105, 111, 112, ASCIICode.backspace()};
+		id1 = {97, 115, 100, 102, 103, 104, 106, 107, 108, ASCIICode.carriageReturn()};
+		id2 = {ASCIICode.shiftIn(), 122, 120, 99, 118, 98, 110, 109, 44, 46};
+		id3 = {ASCIICode.deviceControlNumbers(), 32, ASCIICode.endTransmission(), ASCIICode.clear()};
+
+	} else if (layoutIndex == 1) { 
+
+		id0 = {81, 87, 69, 82, 84, 89, 85, 73, 79, 80, ASCIICode.backspace()};
+		id1 = {65, 83, 68, 70, 71, 72, 74, 75, 76, ASCIICode.carriageReturn()};
+		id2 = {ASCIICode.shiftOut(), 90, 88, 67, 86, 66, 78, 77, 33, 63};
+		id3 = {ASCIICode.deviceControlNumbers(), 32, ASCIICode.endTransmission(), ASCIICode.clear()};
+
+	} else if (layoutIndex == 2) { 
+
+		id0 = {49, 50, 51, 52, 53, 54, 55, 56, 57, 48, ASCIICode.backspace()};
+		id1 = {45, 47, 58, 59, 40, 41, 36, 38, 64, ASCIICode.carriageReturn()};
+		id2 = {ASCIICode.deviceControlSymbols(), 44, 63, 33};
+		id3 = {ASCIICode.deviceControlLetters(), 32, ASCIICode.endTransmission(), ASCIICode.clear()};
+		x2 = {0, 3, 4, 5};
+		w2 = {1.25, 1, 1, 1};
+
+	} else if (layoutIndex == 3) { 
+
+		id0 = {91, 93, 123, 125, 35, 37, 94, 42, 43, 61, ASCIICode.backspace()};
+		id1 = {95, 92, 124, 126, 60, 62};
+		id2 = {ASCIICode.deviceControlNumbers(), 46, 44, 63, 33};
+		id3 = {ASCIICode.deviceControlLetters(), 32, ASCIICode.endTransmission(), ASCIICode.clear()};
+		w1 = {1, 1, 1, 1, 1, 1};
+		x1 = {1.5, 2.5, 3.5, 4.5, 5.5, 6.5};
+		w2 = {1.25, 1, 1, 1, 1};
+		x2 = {0, 3.25, 4.25, 5.25, 6.25};
+
+	} else if (layoutIndex == 4) { 
+
+		id0 = {49, 50, 51, 52, 53, 54, 55, 56, 57, 48, ASCIICode.backspace()};
+		w0 = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5};
+		
+		id1 = {ASCIICode.carriageReturn()};
+		w1 = {2};
+		x1 = {9.5};
+
+		id2 = {45};
+		w2 = {1.25};
+		x2 = {0};
+
+		id3 = {46, ASCIICode.endTransmission(), ASCIICode.clear()}; 
+		w3 = {1.25, 1.25, 1.25};
+		x3 = {0, 9, 10.25};
+	}
+
+	setexpression(layout, 'asciiCodes', {
+		id0, id1, id2, id3
+	});
+	setexpression(layout, 'xMultipliers', {
+		x0, x1, x2, x3
+	});
+	setexpression(layout, 'wMultipliers', {
+		w0, w1, w2, w3
+	});
+	setexpression(layout, 'yMultipliers', { 
+		fill(1, 0, sizeof(id0)), 
+		fill(1, 1, sizeof(id1)),
+		fill(1, 2, sizeof(id2)), 
+		fill(1, 3, sizeof(id3))
+	});
+}
+
+
+
+
+
+
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/KeyLayout/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<WINDOW class="Container" text="TypingBrain" x="0" y="0" width="780" height="387" id="398" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<WINDOW class="Container" text="Numeric" x="33" y="101" width="707" height="276" id="4" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<WINDOW class="Container" text="_" x="0" y="0" width="32" height="32" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<VARIABLE name="sign=" value="1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/sign" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="buffer=" value="0" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/buffer" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="typeDigit(digit)" script="// reject leading zeros
+if (digit == 0 && isEmpty()) {
+	return 0;
+}
+
+// check for numeric overflow
+if (digitWillOverflow(digit)) {
+	return 0;
+}
+
+// append
+if (isEmpty()) {
+	buffer = {digit};
+} else {
+	buffer[sizeof(buffer)] = digit;
+}
+
+return 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/typeDigit" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="typeDecimalPoint()" script="if (didTypeDecimal()) {
+	return 0;
+}
+
+if (isEmpty()) {
+	buffer = {0, ASCIICode.decimalPoint()};
+} else {
+	buffer[sizeof(buffer)] = ASCIICode.decimalPoint();
+}
+return 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/typeDecimalPoint" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="numericValueInt()" script="decl intValue = 0;
+decl i;
+for (i = 0; i < sizeof(buffer); i++) {
+	intValue = intValue * 10 + buffer[i];
+}
+return intValue;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/numericValueInt" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="numericValueFloat()" script="// Handle floating point part
+decl i, floatValue = 0.0;
+decl decimalPosition = -1;
+for (i = 0; i < sizeof(buffer); i++) {
+    if (buffer[i] == ASCIICode.decimalPoint()) {
+        decimalPosition = i;
+        break;
+    }
+}
+
+// Process integer part
+for (i = 0; i < decimalPosition; i++) {
+    floatValue = floatValue * 10 + buffer[i];
+}
+
+// Process fractional part
+decl fractionValue = 0.0;
+decl multiplier = 0.1;
+for (i = decimalPosition + 1; i < sizeof(buffer); i++) {
+    fractionValue += buffer[i] * multiplier;
+    multiplier /= 10;
+}
+floatValue += fractionValue;
+
+return floatValue;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/numericValueFloat" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="isEmpty()" script="return sizeof(buffer) == 1 && buffer[0] == 0;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/isEmpty" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="digitWillOverflowInt(digit)" script="decl MAX_DIGITS = 10;
+decl maxIntDigits = {2, 1, 4, 7, 4, 8, 3, 6, 4, 7};
+decl currentLength = sizeof(buffer);
+
+if (currentLength < MAX_DIGITS - 1) {
+	return 0;
+} 
+
+if (currentLength > MAX_DIGITS - 1) {
+    return 1;
+} 
+
+decl i;
+for (i = 0; i < currentLength; i++) {
+    if (buffer[i] < maxIntDigits[i]) {
+        return 0;
+    } else if (buffer[i] > maxIntDigits[i]) {
+        return 1;
+    }
+}
+
+if (digit <= maxIntDigits[currentLength]) {
+    return 0;
+} else {
+	return 1;
+}
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/digitWillOverflowInt" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="digitWillOverflowFloat(digit)" script="decl MAX_FLOAT_DIGITS = 7;
+decl significantDigits = 0;
+decl decimalPointIndex = -1;
+decl i;
+
+// Create a copy of the buffer including the new digit
+decl newBuffer;
+if (isEmpty()) {
+    newBuffer = {digit};
+} else {
+    newBuffer = buffer;
+    newBuffer[sizeof(buffer)] = digit;
+}
+
+// Find the position of the decimal point and count significant digits
+for (i = 0; i < sizeof(newBuffer); i++) {
+    if (newBuffer[i] == ASCIICode.decimalPoint()) {
+        decimalPointIndex = i;
+    } else if (newBuffer[i] != 0 || significantDigits > 0) {
+        // Count significant digits (excluding leading zeros)
+        significantDigits++;
+    }
+}
+
+// If the total significant digits exceed MAX_FLOAT_DIGITS, return 1 (overflow)
+if (significantDigits > MAX_FLOAT_DIGITS) {
+    return 1;
+}
+
+return 0;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/digitWillOverflowFloat" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="digitWillOverflow(digit)" script="if (didTypeDecimal()) {
+	return digitWillOverflowFloat(digit);
+} else {
+	return digitWillOverflowInt(digit);
+}
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/digitWillOverflow" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="didTypeDecimal()" script="decl i;
+for (i = 0; i < sizeof(buffer); i++) {
+	if (buffer[i] == ASCIICode.decimalPoint()) {
+		return 1;
+	}
+}	
+return 0;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/didTypeDecimal" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="backspace()" script="if (sizeof(buffer) == 1) {
+	clear();
+} else {
+	buffer = subarray(buffer, 0, sizeof(buffer) -1);
+}" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/backspace" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="typeSign()" script="sign = sign == -1 ? 1 : -1;
+return 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/typeSign" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="append(value)" script="if (isEmpty()) {
+	buffer = {value};
+} else {
+	buffer[sizeof(buffer)] = value;
+}" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/_/append" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<SCRIPT name="numericValue()" script="if (_.isEmpty()) {
+	return 0;
+}
+if (!_.didTypeDecimal()) {
+	return _.sign * _.numericValueInt();
+} else {
+	return _.sign * _.numericValueFloat();
+}
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/numericValue" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="formattedOutput()" script="if (_.sign == -1 && _.isEmpty()) {
+	return _.didTypeDecimal() ? '-0.0' : '-0';
+} else {
+	return '' + numericValue();
+}" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/formattedOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="load(number)" script="// Check it is not an array
+if (sizeof(number) != 1) return 0;
+
+// Check it is a number
+if ('' + number == number) return 0;
+
+// Check not same number as current number
+if ((number < 0 && _.sign == -1) || (number > 0 && _.sign == 1)) {
+	if (abs(number) - numericValue() < 0.1) return 0;
+} 
+
+// Check if allows negative numbers
+if (number < 0 && !allowsNegativeNumbers) return 0;
+
+// Check if allows floats
+if ((floor(number) != number) && !allowsFloatingPointNumbers) return 0;
+
+// Convert to string and check conversion was successful
+decl numberString = '' + abs(number);
+decl chars = stringtoarray(numberString);
+if (chars == 0) return 0;
+
+clear();
+
+// Determine sign
+if (number < 0) {
+    _.sign = -1;
+} else {
+    _.sign = 1;
+}
+
+// Parse and load into buffer
+decl i;
+for (i = 0; i < sizeof(chars); i++) {
+    decl char = chars[i];
+    if (char == ASCIICode.decimalPoint()) { 
+        _.typeDecimalPoint();
+    } else {
+		// Convert ASCII to int
+        _.typeDigit(char - 48);  
+    }
+}
+
+return 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/load" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="clear()" script="_.buffer = {0};
+_.sign = 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/clear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="type(asciiCode)" script="// Reject array
+if (sizeof(asciiCode) != 1) return 0;
+
+// Reject non-digits
+if (abs(asciiCode) - abs(asciiCode) != 0) return 0;
+
+
+// Backspace
+if (asciiCode == ASCIICode.backspace()) {
+	_.backspace();
+	return 1;
+}
+
+// Clear
+if (asciiCode == ASCIICode.clear()) {
+	clear();
+	return 1;
+}
+
+// Decimal
+if (asciiCode == ASCIICode.decimalPoint()) {
+	return _.typeDecimalPoint();
+}
+
+
+// Sign
+if (asciiCode == ASCIICode.dash()) {
+	return _.typeSign();
+}
+
+// Reject non-digit ASCIICodes
+decl ascii0 = 48, ascii9 = 57;
+if (asciiCode < ascii0 || asciiCode > ascii9) {
+	return 0;
+}
+
+// Type digit
+return _.typeDigit(asciiCode - ascii0);" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Numeric/type" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<WINDOW class="Container" text="Alphanumeric" x="139" y="8" width="146" height="107" id="5" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<WINDOW class="Container" text="_" x="0" y="0" width="32" height="32" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<VARIABLE name="buffer=" value="''" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/TypingBrain/Alphanumeric/_/buffer" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="isValidAsciiCode(asciiCode)" script="return (asciiCode >= 32 && asciiCode <= 126) || asciiCode == 9;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Alphanumeric/_/isValidAsciiCode" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="isEmpty()" script="return sizeof(buffer) == 1 && buffer[0] == '';" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Alphanumeric/_/isEmpty" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="backspace()" script="if (sizeof(buffer) == 1) {
+	clear();
+} else {
+	buffer = subarray(buffer, 0, sizeof(buffer) -1);
+}" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Alphanumeric/_/backspace" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<SCRIPT name="clear()" script="_.buffer = {''};
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Alphanumeric/clear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="stringValue()" script="if (_.isEmpty()) {
+	return '';
+} else {
+	return arraytostring(_.buffer);
+}
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Alphanumeric/stringValue" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="formattedOutput()" script="return stringValue();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Alphanumeric/formattedOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="load(string)" script="// Reject arrays
+if (sizeof(string) != 1) return 0;
+
+// Check it is a string
+if (('' + string) != string) return 0;
+
+
+// Check it is not the same value
+if (string == stringValue()) return 0;
+
+
+// Parse and sanitize
+decl chars = stringtoarray(string);
+decl sanitizedChars = {0};
+decl i, insertIndex = -1;
+for (i = 0; i < sizeof(chars); i++) {
+	decl char = chars[i];
+	if (!_.isValidAsciiCode(char)) continue;
+	sanitizedChars[++insertIndex] = char;
+}
+
+if (insertIndex == -1) return 0;
+
+clear();
+
+for (i = 0; i < sizeof(sanitizedChars); i++) {
+	type(sanitizedChars[i]);
+}
+
+return 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Alphanumeric/load" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="type(asciiCode)" script="// Reject arrays
+if (sizeof(asciiCode) != 1) return 0;
+
+// Backspace
+if (asciiCode == ASCIICode.backspace()) {
+	_.backspace();
+	return 1;
+}
+
+// Clear
+if (asciiCode == ASCIICode.clear()) {
+	clear();
+	return 1;
+}
+
+// Reject invalid ascii codes
+if (!_.isValidAsciiCode(asciiCode)) return 0;
+
+// Max 256 chars
+if (sizeof(_.buffer) == 256) return 0;
+
+if (sizeof(_.buffer) == 256) {
+	return 0;
+}
+
+// Append
+if (_.isEmpty()) {
+	_.buffer = {asciiCode}; 
+} else {
+	_.buffer[sizeof(_.buffer)] = asciiCode;
+}
+
+return 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/Alphanumeric/type" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<SCRIPT name="type(asciiCode)" script="if (isAlphanumeric) {
+	Alphanumeric.type(asciiCode);
+} else {
+	Numeric.type(asciiCode);
+}
+sendOutput();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/type" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="init()" script="
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="clear()" script="Alphanumeric.clear();
+Numeric.clear();
+sendOutput();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/clear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="output()" script="if (isAlphanumeric) {
+	return TypingBrain.Alphanumeric.stringValue();
+} else {
+	return TypingBrain.Numeric.numericValue();
+}" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/output" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="formattedOutput()" script="if (isAlphanumeric) {
+	return Alphanumeric.formattedOutput();
+} else {
+	return Numeric.formattedOutput();
+}" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/formattedOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="load(value)" script="decl didLoad = 0;
+
+if (isAlphanumeric) {
+	didLoad = Alphanumeric.load(value);
+} else {
+	didLoad = Numeric.load(value);
+}
+
+if (didLoad) {
+	sendOutput();
+}
+
+return didLoad;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/load" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<VARIABLE name="output=" value="''" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/output" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onLoad()" script="decl this = getobject();
+decl bounds = replace(getobjectrect(getparent(this)), {0, 0}, 0) - {0, 0, 16, 16};
+setobjectrect(this, {-8, -8, bounds[2] + 16, bounds[3] + 16});
+setobjectrect(UI, getobjectrect(this));
+TypingBrain.init();
+KeyLayout.init();
+UI.init();
+" trigger_script="" trigger_type="5" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/onLoad" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="userDidClear()" script="TypingBrain.clear();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/userDidClear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="userDidGetOutput()" script="return output;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/userDidGetOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="userDidSetOutput(value)" script="return TypingBrain.load(value);" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/userDidSetOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="sendOutput()" script="output = TypingBrain.output();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/sendOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+<VARIABLE name="showsReturnKey=1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/showsReturnKey" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="567,1,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="showsOutput=1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/showsOutput" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="16256,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="showsDismissKey=1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/showsDismissKey" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="106,113,137" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="isAlphanumeric=1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/isAlphanumeric" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="allowsNegativeNumbers=1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/allowsNegativeNumbers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="-1,-6913,1792" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="allowsFloatingPointNumbers=1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/allowsFloatingPointNumbers" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17118,31206,16273" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="backgroundFillColor={0.96}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/backgroundFillColor" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="keyFillColorHighlighted={0.4}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/keyFillColorHighlighted" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,20607,65" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="keyFillColorNormal={0.2}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/keyFillColorNormal" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="keyTextColorHighlighted={0.9}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/keyTextColorHighlighted" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="keyTextColorNormal={1}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/keyTextColorNormal" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="-256,14476,-256" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="outputWindowFillColor={0.1}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/outputWindowFillColor" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="8292,25959,25966" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="outputWindowTextColor={1}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/outputWindowTextColor" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="606,1,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="clear()" script="/*  
+Call this script to clear the output.
+*/
+
+// Do not delete the code between the lines
+// ----------------------------------------
+_.userDidClear(); 
+// ----------------------------------------" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/clear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="getOutput()" script="/* 
+Returns the output from the keyboard.
+Monitor the output of this script to listen for changes to the output.
+
+Example:
+1. Create a Monitor
+2. In the Monitor value, type MKQwerty.getOutput();
+*/
+
+// Do not delete the code between the lines
+// ----------------------------------------
+return _.userDidGetOutput();
+// ----------------------------------------" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/getOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="setOutput(value)" script="/*
+Loads the keyboard with a value.
+The value will only be accepted if the settings allow it.
+
+Example: Loading the keyboard with non-negative numbers
+
+MKQwerty.isAlphanumeric = 0; // Turns off letters
+MKQwerty.allowsNegativeNumbers = 0; // Disables negative numbers
+MKQwerty.setOutput('Hello'); // Will not be accepted because is a string
+MKQwerty.setOutput(-100); // Will not be accepted because it is a negative number
+MKQwerty.setOutput(100); // Accepted
+
+*/
+
+// Do not delete the code between the lines
+// ----------------------------------------
+return _.userDidSetOutput(value);
+// ----------------------------------------" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/setOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="didTypeKey(asciiCode)" script="/* 
+This script is executed when the user types a key.
+You can place code in here to react to this message.
+
+MKQwerty follows the 7-bit ASCII standard.
+
+See https://www.ascii-code.com/ASCII for a list of keys and their numeric value
+
+Special Notes:
+
+- Sends ascii code 4 (End of Transmission) for dismiss
+- Sends ascii code 8 (Backspace) for delete
+- Sends ascii code 12 (Form Feed) for clear
+- Sends ascii code 13 (Carriage Return) for return
+- Does not send a code when the key layout changes
+*/
+
+// Example:
+
+decl text; 
+if (asciiCode == 4) {
+	text = 'End of Transmission';
+} else if (asciiCode == 8) {
+	text = 'Backspace';
+} else if (asciiCode == 12) {
+	text = 'Form Feed';
+} else if (asciiCode == 13) {
+	text = 'Return';
+} else {
+	text = arraytostring(asciiCode);
+}
+Demo.KeyMonitor.value = {asciiCode, text};" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/didTypeKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
+</JZML>
