@@ -196,7 +196,35 @@ if (asciiCode == 0) {
 	return;
 }
 
-handleKeyTyped(asciiCode);" trigger_script="" trigger_type="255" trigger_name="onCursorUp" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/onCursorUp" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+// Handle ascii code
+
+TypingBrain.type(asciiCode);
+
+if (asciiCode == ASCIICode.shiftIn()) {
+
+	KeyLayout.current = KeyLayout.upperCase;
+
+} else if (asciiCode == ASCIICode.shiftOut()) {
+
+	KeyLayout.current = KeyLayout.lowerCase;
+
+} else if (asciiCode == ASCIICode.deviceControlNumbers()) {
+
+	KeyLayout.current = KeyLayout.nums;
+
+} else if (asciiCode == ASCIICode.deviceControlSymbols()) {
+
+	KeyLayout.current = KeyLayout.specialChars;
+
+} else if (asciiCode == ASCIICode.deviceControlLetters()) {
+
+	KeyLayout.current = KeyLayout.lowerCase;
+
+} else {
+	
+	sendLastTypedKey(asciiCode);
+
+}" trigger_script="" trigger_type="255" trigger_name="onCursorUp" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/onCursorUp" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
 <SCRIPT name="init()" script="" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 <SCRIPT name="drawDismissIcon(rect)" script="decl this = getobject();
 
@@ -282,35 +310,6 @@ if (!isAlphanumeric) {
 }
 
 return 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/canDrawKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
-<SCRIPT name="handleKeyTyped(asciiCode)" script="TypingBrain.type(asciiCode);
-
-
-if (asciiCode == ASCIICode.shiftIn()) {
-
-	KeyLayout.current = KeyLayout.upperCase;
-
-} else if (asciiCode == ASCIICode.shiftOut()) {
-
-	KeyLayout.current = KeyLayout.lowerCase;
-
-} else if (asciiCode == ASCIICode.deviceControlNumbers()) {
-
-	KeyLayout.current = KeyLayout.nums;
-
-} else if (asciiCode == ASCIICode.deviceControlSymbols()) {
-
-	KeyLayout.current = KeyLayout.specialChars;
-
-} else if (asciiCode == ASCIICode.deviceControlLetters()) {
-
-	KeyLayout.current = KeyLayout.lowerCase;
-
-} else {
-
-	didTypeKey(asciiCode);
-
-}
-" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/UI/Keyboard/Canvas/handleKeyTyped" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 </WINDOW>
 <WINDOW class="Container" text="CursorList" x="0" y="0" width="156" height="165" id="391" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
 <VARIABLE name="cursors=" value="-1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/UI/Keyboard/CursorList/cursors" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17325,17896,17056" kbmouse_scale="0,1,0,1"/>
@@ -951,12 +950,12 @@ return 1;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4
 } else {
 	Numeric.type(asciiCode);
 }
-sendOutput();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/type" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+sendOutput(output());" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/type" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 <SCRIPT name="init()" script="
 " trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/init" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 <SCRIPT name="clear()" script="Alphanumeric.clear();
 Numeric.clear();
-sendOutput();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/clear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+sendOutput(output());" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/clear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 <SCRIPT name="output()" script="if (isAlphanumeric) {
 	return TypingBrain.Alphanumeric.stringValue();
 } else {
@@ -976,12 +975,13 @@ if (isAlphanumeric) {
 }
 
 if (didLoad) {
-	sendOutput();
+	sendOutput(output());
 }
 
 return didLoad;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/load" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 </WINDOW>
 <VARIABLE name="output=" value="''" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/output" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="lastTypedKey=0" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/_/lastTypedKey" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17443,-32588,16282" kbmouse_scale="0,1,0,1"/>
 <SCRIPT name="onLoad()" script="decl this = getobject();
 decl bounds = replace(getobjectrect(getparent(this)), {0, 0}, 0) - {0, 0, 16, 16};
 setobjectrect(this, {-8, -8, bounds[2] + 16, bounds[3] + 16});
@@ -993,7 +993,10 @@ UI.init();
 <SCRIPT name="userDidClear()" script="TypingBrain.clear();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/userDidClear" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 <SCRIPT name="userDidGetOutput()" script="return output;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/userDidGetOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 <SCRIPT name="userDidSetOutput(value)" script="return TypingBrain.load(value);" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/userDidSetOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
-<SCRIPT name="sendOutput()" script="output = TypingBrain.output();" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/sendOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="userDidGetLastTypedKey()" script="return lastTypedKey;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/userDidGetLastTypedKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="sendOutput(newOutput)" script="output = newOutput;
+" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/sendOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+<SCRIPT name="sendLastTypedKey(asciiCode)" script="lastTypedKey = asciiCode;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/sendLastTypedKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 </WINDOW>
 <VARIABLE name="showsReturnKey=1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/showsReturnKey" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="567,1,0" kbmouse_scale="0,1,0,1"/>
 <VARIABLE name="showsOutput=1" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/showsOutput" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="16256,0,0" kbmouse_scale="0,1,0,1"/>
@@ -1047,9 +1050,9 @@ MKQwerty.setOutput(100); // Accepted
 // ----------------------------------------
 return _.userDidSetOutput(value);
 // ----------------------------------------" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/setOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
-<SCRIPT name="didTypeKey(asciiCode)" script="/* 
-This script is executed when the user types a key.
-You can place code in here to react to this message.
+<SCRIPT name="getLastTypedKey()" script="/* 
+
+Returns the ASCII code of the last typed key.
 
 MKQwerty follows the 7-bit ASCII standard.
 
@@ -1062,22 +1065,15 @@ Special Notes:
 - Sends ascii code 12 (Form Feed) for clear
 - Sends ascii code 13 (Carriage Return) for return
 - Does not send a code when the key layout changes
+
+
+
 */
 
-// Example:
 
-decl text; 
-if (asciiCode == 4) {
-	text = 'End of Transmission';
-} else if (asciiCode == 8) {
-	text = 'Backspace';
-} else if (asciiCode == 12) {
-	text = 'Form Feed';
-} else if (asciiCode == 13) {
-	text = 'Return';
-} else {
-	text = arraytostring(asciiCode);
-}
-Demo.KeyMonitor.value = {asciiCode, text};" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/didTypeKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+// Do not delete the code between the lines
+// ----------------------------------------
+_.userDidGetLastTypedKey();
+// ----------------------------------------" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/getLastTypedKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 </WINDOW>
 </JZML>
