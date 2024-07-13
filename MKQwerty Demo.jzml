@@ -1,5 +1,183 @@
 <JZML>
-<WINDOW class="Container" text="MKQwerty" x="0" y="0" width="768" height="210" id="415" state="5" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="8355711" label="1" tabbar="1" meta="0">
+<PROJECT version="5400" width="800" height="600" osc_target="-1" midi_target="-1" kbmouse_target="-1" skin="Flat"/>
+<WINDOW class="JAZZINTERFACE" text="Default" x="0" y="0" width="800" height="600" state="1" group="0" font="tahoma,11,0" >
+<WINDOW class="Container" text="Tutorial" x="14" y="225" width="771" height="366" id="414" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="8388608" label="1" tabbar="1" meta="1">
+<WINDOW class="Tab" text="1. Keyboard Settings" x="0" y="0" width="755" height="318" state="0" group="0" font="tahoma,11,0" >
+<WINDOW class="Text" text="Text3" x="6" y="4" width="745" height="38" id="412" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="The keyboard is configurable with a variety of settings to determine what kind of value it outputs.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text3/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text5" x="8" y="99" width="735" height="29" id="413" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="Give it a try by toggling the buttons. Take a look in each button's `onX` script for a code example.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text5/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="CustomButton" text="Alphanumeric" x="6" y="145" width="239" height="48" id="414" state="241" group="0" font="tahoma,15,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" behavior="0" bitmap="0,0" capture="1" color="3815994,31779" label_off="isAlphanumeric" label_on="isAlphanumeric" outline="1">
+<PARAM name="x=" value="1.000000" send="17" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Alphanumeric/x" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" osc_scale="0.000000,1.000000" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Alphanumeric/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onX()" script="MKQwerty.isAlphanumeric = x;" trigger_script="x" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/Alphanumeric/onX" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="CustomButton" text="AllowNegativeNumbers" x="247" y="145" width="239" height="48" id="415" state="241" group="0" font="tahoma,15,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" behavior="0" bitmap="0,0" capture="1" color="3815994,31779" label_off="allowsNegativeNumbers" label_on="allowsNegativeNumbers" outline="1">
+<PARAM name="x=" value="1.000000" send="17" osc_target="0" osc_trigger="1" osc_message="/Tutorial/AllowNegativeNumbers/x" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" osc_scale="0.000000,1.000000" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/AllowNegativeNumbers/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onX()" script="MKQwerty.allowsNegativeNumbers = x;" trigger_script="x" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/AllowNegativeNumbers/onX" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="CustomButton" text="AllowFloatingPoint" x="488" y="145" width="239" height="48" id="416" state="241" group="0" font="tahoma,15,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" behavior="0" bitmap="0,0" capture="1" color="3815994,31779" label_off="allowsFloatingPointNumbers" label_on="allowsFloatingPointNumbers" outline="1">
+<PARAM name="x=" value="1.000000" send="17" osc_target="0" osc_trigger="1" osc_message="/Tutorial/AllowFloatingPoint/x" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" osc_scale="0.000000,1.000000" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/AllowFloatingPoint/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onX()" script="MKQwerty.allowsFloatingPointNumbers = x;" trigger_script="x" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/AllowFloatingPoint/onX" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="CustomButton" text="ShowDismiss" x="247" y="192" width="239" height="48" id="417" state="241" group="0" font="tahoma,15,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" behavior="0" bitmap="0,0" capture="1" color="3815994,31779" label_off="showsDismissKey" label_on="showsDismissKey" outline="1">
+<PARAM name="x=" value="1.000000" send="17" osc_target="0" osc_trigger="1" osc_message="/Tutorial/ShowDismiss/x" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" osc_scale="0.000000,1.000000" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/ShowDismiss/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onX()" script="MKQwerty.showsDismissKey = x;" trigger_script="x" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/ShowDismiss/onX" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="CustomButton" text="ShowReturn" x="6" y="192" width="239" height="48" id="418" state="241" group="0" font="tahoma,15,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" behavior="0" bitmap="0,0" capture="1" color="3815994,31779" label_off="showsReturnKey" label_on="showsReturnKey" outline="1">
+<PARAM name="x=" value="1.000000" send="17" osc_target="0" osc_trigger="1" osc_message="/Tutorial/ShowReturn/x" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" osc_scale="0.000000,1.000000" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/ShowReturn/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onX()" script="MKQwerty.showsReturnKey = x;" trigger_script="x" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/ShowReturn/onX" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="CustomButton" text="ShowOutput" x="488" y="192" width="239" height="48" id="419" state="241" group="0" font="tahoma,15,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" behavior="0" bitmap="0,0" capture="1" color="3815994,31779" label_off="showsOutput" label_on="showsOutput" outline="1">
+<PARAM name="x=" value="1.000000" send="17" osc_target="0" osc_trigger="1" osc_message="/Tutorial/ShowOutput/x" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" osc_scale="0.000000,1.000000" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/ShowOutput/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onX()" script="MKQwerty.showsOutput = x;" trigger_script="x" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/ShowOutput/onX" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text6" x="8" y="42" width="735" height="44" id="420" state="85" group="0" font="tahoma,14,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="The most important setting is `isAlphanumeric`. When this value is set to true (1) it will output strings (text). When it is set to false (0) it will output numbers.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text6/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+</WINDOW>
+<WINDOW class="Tab" text="3. Getting Output" x="0" y="0" width="755" height="318" id="2" state="0" group="0" font="tahoma,11,0" >
+<WINDOW class="Text" text="Text2" x="9" y="146" width="746" height="29" id="411" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="If you have multiple controls, you can create some logic to determine which control receives the output. ">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text2/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text7" x="9" y="0" width="712" height="31" id="412" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="MKQwerty publishes its output through its `output` expression.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text7/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text8" x="9" y="176" width="746" height="26" id="413" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="There are lots of ways to do this, and how you approach it will be determined by your specific use case.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text8/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text9" x="330" y="80" width="401" height="48" id="414" state="241" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text9/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onKeyboardOutput()" script="setattribute(getobject(), 'content', MKQwerty.output);" trigger_script="MKQwerty.output" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/Text9/onKeyboardOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text10" x="9" y="80" width="301" height="62" id="415" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="Take a look at the Label's `onKeyboardOutput()` script for a code example ->">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text10/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text4" x="9" y="29" width="712" height="51" id="416" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="You can monitor the keyboard's output by creating a script, setting its execution mode to \"On Expression\", and entering `MKQwerty.output` as the expression to monitor.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text4/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text12" x="9" y="202" width="712" height="44" id="417" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="Tap one of the Switches below. The currently selected button will have its label updated. Make sure that `isAlphanumeric` is set to true (1).">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text12/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Switches" text="Switches" x="9" y="260" width="731" height="46" id="418" state="1" group="0" font="tahoma,10,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" bitmap_off="" bitmap_on="" capture="1" color="865343,1596013" column="4" label="0" multicolor="0" multilabel="1" paint="0" radio="1" row="1" style="0">
+<PARAM name="x=" value="0.000000,0.000000,0.000000,0.000000" send="17" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Switches/x" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" osc_scale="0.000000,1.000000" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Switches/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onLoad()" script="// Resets all labels
+x = fill(1, 0, 4);
+setattribute(getobject(), 'labels', {
+	'Button', 'Button', 'Button', 'Button'
+});" trigger_script="" trigger_type="5" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/Switches/onLoad" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onKeyboardOutput()" script="if (MKQwerty.isAlphanumeric) {
+	// Fetch the current labels as an array
+	decl labels = getattribute(getobject(), 'labels');
+	// Determine which button is pressed
+	decl buttonIndex = firstof(x);
+	// Replace the label with the keyboard's output text
+	labels[buttonIndex] = MKQwerty.output;
+	// Update the labels with the new values
+	setattribute(getobject(), 'labels', labels);
+}
+
+" trigger_script="MKQwerty.output" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/Switches/onKeyboardOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onX()" script="// When a button is pressed, the keyboard's output will be set to
+// the currently selected button
+decl labels = getattribute(getobject(), 'labels');
+decl buttonIndex = firstof(x);
+MKQwerty.setOutput(labels[buttonIndex]);" trigger_script="x" trigger_type="0" trigger="2" clock="0" clock_div="4" osc_message="/Tutorial/Switches/onX" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+</WINDOW>
+<WINDOW class="Tab" text="3. Setting Output" x="0" y="0" width="755" height="318" id="1" state="1" group="0" font="tahoma,11,0" >
+<WINDOW class="Text" text="Text" x="7" y="46" width="748" height="24" id="415" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="Tap a button to load the value into the keyboard. The value will only be accepted if the settings allow it.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Pads" text="Pads" x="9" y="100" width="721" height="48" id="421" state="1" group="0" font="tahoma,14,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" bitmap_off="" bitmap_on="" capture="1" color="865343,1596013" column="4" label="0" multicolor="0" multilabel="1" row="1" style="0">
+<PARAM name="x=" value="0.000000,0.000000,0.000000,0.000000" send="17" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Pads/x" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" osc_scale="0.000000,1.000000" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="attack=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Pads/attack" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="decay=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Pads/decay" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="sustain=1" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Pads/sustain" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="release=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Pads/release" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="hold=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Pads/hold" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Pads/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onPadPressed(indices)" script="decl values = {
+	'Lemur MIDI Controller',
+	123456,
+	-123456,
+	123.456,
+	-123.456
+};
+
+MKQwerty.setOutput(values[indices[0]]);" trigger_script="" trigger_type="255" trigger_name="onPressed" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/Pads/onPadPressed" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+<SCRIPT name="onLoad()" script="setattribute(getobject(), 'labels', {
+	'Lemur MIDI Controller', '123456',
+	'-123456', '123.456', '-123.456'
+}); " trigger_script="" trigger_type="5" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/Pads/onLoad" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text11" x="9" y="4" width="706" height="33" id="422" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="The Keyboard can also have its output set externally via the `setOutput(value)` script.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text11/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text21" x="9" y="173" width="731" height="20" id="423" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="8421376" content="<!> Don't set the keyboard's output directly. Always use the `setOutput(value)` script.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text21/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+</WINDOW>
+<WINDOW class="Tab" text="4. Monitoring Key Strokes" x="0" y="0" width="755" height="318" id="3" state="0" group="0" font="tahoma,11,0" >
+<WINDOW class="Text" text="Text13" x="9" y="0" width="719" height="53" id="412" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="MKQwerty also publishes its last typed key via the `lastTypedKey` expression. This works in the same way as `output`.">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text13/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text14" x="9" y="36" width="546" height="53" id="413" state="213" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="MKQwerty follows the 7-bit ASCII standard. When you type a key, the corresponding ASCII code will be emitted. ->">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text14/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Monitor" text="ASCIICode" x="579" y="38" width="159" height="44" id="414" state="241" group="0" font="tahoma,14,0" send="1" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" precision="3" unit="" value="1">
+<VARIABLE name="value=MKQwerty.lastTypedKey" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/ASCIICode/value" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text15" x="9" y="115" width="422" height="27" id="415" state="85" group="0" font="tahoma,12,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="- Sends ASCII Code 4 (End Transmission) on Dismiss">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text15/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text16" x="9" y="136" width="386" height="27" id="416" state="85" group="0" font="tahoma,12,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="- Sends ASCII Code 8 (Backspace) on Delete">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text16/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text17" x="9" y="157" width="504" height="27" id="417" state="85" group="0" font="tahoma,12,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="- Sends ASCII Code 12 (Form Feed) on Clear">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text17/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text18" x="9" y="178" width="449" height="27" id="418" state="85" group="0" font="tahoma,12,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="- Sends ASCII Code 13 (Carriage Return) ) on Return">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text18/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text20" x="11" y="291" width="722" height="27" id="420" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="8355711" content="Visit https://www.ascii-code.com/ASCII for a list of all ASCII codes">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text20/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Monitor" text="arrayToString" x="529" y="213" width="217" height="47" id="421" state="241" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" precision="3" unit="" value="1">
+<VARIABLE name="value=" value="'Form Feed'" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/arrayToString/value" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+<SCRIPT name="onLastTypedKey()" script="decl asciiCode = MKQwerty.lastTypedKey;
+
+// Special handling for control codes
+if (asciiCode == 4) {
+	value = 'End Transmission';
+} else if (asciiCode == 8) {
+	value = 'Backspace';
+} else if (asciiCode == 12) {
+	value = 'Form Feed';
+} else if (asciiCode == 13) {
+	value = 'Carriage Return';
+} else {
+	// Otherwise, convert to string using `arraytostring(c[])`
+	value = arraytostring(asciiCode);
+}" trigger_script="MKQwerty.lastTypedKey" trigger_type="0" trigger="1" clock="0" clock_div="4" osc_message="/Tutorial/arrayToString/onLastTypedKey" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text22" x="9" y="213" width="517" height="53" id="422" state="213" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="You can use Lemur's built in function `arraytostring(c[])` to convert an ASCII code to a string. Take a look at the label's `onLastTypedKey` for a code example ->">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text22/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+<WINDOW class="Text" text="Text23" x="9" y="89" width="724" height="27" id="423" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="MKQwerty sends the following ASCII control codes for non-textual keystrokes:">
+<VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text23/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
+</WINDOW>
+</WINDOW>
+</WINDOW>
+<WINDOW class="Container" text="MKQwerty" x="14" y="4" width="768" height="210" id="415" state="5" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="8355711" label="1" tabbar="1" meta="0">
 <WINDOW class="Container" text="_" x="-8" y="-8" width="768" height="210" id="388" state="5" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
 <WINDOW class="Container" text="UI" x="-8" y="-8" width="768" height="210" id="391" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
 <WINDOW class="Canvas" text="Background" x="0" y="0" width="752" height="194" id="395" state="5" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" capture="1" redrawMode="1" touchSupport="1">
@@ -1044,5 +1222,6 @@ MKQwerty.setOutput(100); // Accepted
 // ----------------------------------------
 return _.userDidSetOutput(value);
 // ----------------------------------------" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/setOutput" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
 </WINDOW>
 </JZML>
