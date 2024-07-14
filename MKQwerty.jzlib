@@ -1016,7 +1016,7 @@ didChangeOutput = time;
 <VARIABLE name="outputWindowTextColor={1}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/outputWindowTextColor" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="606,1,0" kbmouse_scale="0,1,0,1"/>
 <VARIABLE name="output=" value="''" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/output" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
 <VARIABLE name="lastTypedKey=" value="12" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/lastTypedKey" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17410,-32586,16282" kbmouse_scale="0,1,0,1"/>
-<VARIABLE name="didChangeOutput=" value="5174.396973" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/didChangeOutput" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17008,31206,16273" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="didChangeOutput=" value="13.963819" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/didChangeOutput" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17008,31206,16273" kbmouse_scale="0,1,0,1"/>
 <SCRIPT name="clear()" script="/*  
 Call this script to clear the output.
 */
