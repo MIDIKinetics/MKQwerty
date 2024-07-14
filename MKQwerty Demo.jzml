@@ -2,7 +2,7 @@
 <PROJECT version="5400" width="800" height="600" osc_target="-1" midi_target="-1" kbmouse_target="-1" skin="Flat"/>
 <WINDOW class="JAZZINTERFACE" text="Default" x="0" y="0" width="800" height="600" state="1" group="0" font="tahoma,11,0" >
 <WINDOW class="Container" text="Tutorial" x="14" y="225" width="771" height="366" id="414" state="1" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="8388608" label="1" tabbar="1" meta="1">
-<WINDOW class="Tab" text="1. Keyboard Settings" x="0" y="0" width="755" height="318" state="0" group="0" font="tahoma,11,0" >
+<WINDOW class="Tab" text="1. Keyboard Settings" x="0" y="0" width="755" height="318" state="1" group="0" font="tahoma,11,0" >
 <WINDOW class="Text" text="Text3" x="6" y="4" width="745" height="38" id="412" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="The keyboard is configurable with a variety of settings to determine what kind of value it outputs.">
 <VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text3/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
 </WINDOW>
@@ -93,7 +93,7 @@ decl buttonIndex = firstof(x);
 MKQwerty.setOutput(labels[buttonIndex]);" trigger_script="x" trigger_type="0" trigger="2" clock="0" clock_div="4" osc_message="/Tutorial/Switches/onX" midi_message="0x90,0x90,0,0" midi_target="-1" flag="1"/>
 </WINDOW>
 </WINDOW>
-<WINDOW class="Tab" text="3. Setting Output" x="0" y="0" width="755" height="318" id="1" state="1" group="0" font="tahoma,11,0" >
+<WINDOW class="Tab" text="3. Setting Output" x="0" y="0" width="755" height="318" id="1" state="0" group="0" font="tahoma,11,0" >
 <WINDOW class="Text" text="Text" x="7" y="46" width="748" height="24" id="415" state="85" group="0" font="tahoma,14,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" content="Tap a button to load the value into the keyboard. The value will only be accepted if the settings allow it.">
 <VARIABLE name="light=0" send="0" osc_target="0" osc_trigger="1" osc_message="/Tutorial/Text/light" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
 </WINDOW>
@@ -1194,7 +1194,7 @@ didChangeOutput = time;
 <VARIABLE name="outputWindowTextColor={1}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/outputWindowTextColor" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="606,1,0" kbmouse_scale="0,1,0,1"/>
 <VARIABLE name="output=" value="''" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/output" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
 <VARIABLE name="lastTypedKey=" value="12" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/lastTypedKey" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17410,-32586,16282" kbmouse_scale="0,1,0,1"/>
-<VARIABLE name="didChangeOutput=" value="5174.396973" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/didChangeOutput" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17008,31206,16273" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="didChangeOutput=" value="2.145858" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/didChangeOutput" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17008,31206,16273" kbmouse_scale="0,1,0,1"/>
 <SCRIPT name="clear()" script="/*  
 Call this script to clear the output.
 */
