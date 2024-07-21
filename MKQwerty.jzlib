@@ -985,6 +985,28 @@ if (didLoad) {
 
 return didLoad;" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/TypingBrain/load" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
 </WINDOW>
+<WINDOW class="Container" text="_Software_License_Agreement" x="0" y="0" width="32" height="32" id="399" state="0" group="0" font="tahoma,10,0" send="0" osc_target="-2" midi_target="-2" kbmouse_target="-2" color="1596013" label="1" tabbar="1" meta="0">
+<SCRIPT name="Software_License_Agreement()" script="/*
+Copyright (c) 2024 MIDI Kinetics
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+and associated documentation files (the \"Software\"), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following condition:
+
+The above copyright notice and this permission notice shall be included 
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, I
+NCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
+IN THE SOFTWARE.
+*/" trigger_script="" trigger_type="4" trigger="1" clock="0" clock_div="4" osc_message="/MKQwerty/_/_Software_License_Agreement/Software_License_Agreement" midi_message="0x90,0x90,0,0" midi_target="-1" flag="0"/>
+</WINDOW>
 <SCRIPT name="onLoad()" script="decl this = getobject();
 decl bounds = replace(getobjectrect(getparent(this)), {0, 0}, 0) - {0, 0, 16, 16};
 setobjectrect(this, {-8, -8, bounds[2] + 16, bounds[3] + 16});
@@ -1016,7 +1038,7 @@ didChangeOutput = time;
 <VARIABLE name="outputWindowTextColor={1}" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/outputWindowTextColor" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="606,1,0" kbmouse_scale="0,1,0,1"/>
 <VARIABLE name="output=" value="''" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/output" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="0,0,0" kbmouse_scale="0,1,0,1"/>
 <VARIABLE name="lastTypedKey=" value="12" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/lastTypedKey" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17410,-32586,16282" kbmouse_scale="0,1,0,1"/>
-<VARIABLE name="didChangeOutput=" value="13.963819" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/didChangeOutput" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17008,31206,16273" kbmouse_scale="0,1,0,1"/>
+<VARIABLE name="didChangeOutput=" value="1.728854" send="0" osc_target="0" osc_trigger="1" osc_message="/MKQwerty/didChangeOutput" midi_target="-1" midi_trigger="1" midi_message="0x90,0x90,0,0" midi_scale="0,16383" kbmouse_target="-1" kbmouse_trigger="1" kbmouse_message="17008,31206,16273" kbmouse_scale="0,1,0,1"/>
 <SCRIPT name="clear()" script="/*  
 Call this script to clear the output.
 */
