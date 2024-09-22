@@ -1,6 +1,6 @@
 # MKQwerty
 
-A Lemur implementation of an ASCII keyboard.
+Lemur QWERTY Keyboard Widget
 
 ![App Screenshot](images/screenshot.png)
 
